@@ -14,13 +14,13 @@
         delta (if (= dir \L) (- mag) mag)
         step (if (pos? delta) 1 -1)
         abs-delta (if (neg? delta) (- delta) delta)
-        ;; Count zeros without building intermediate collection
-        hits (transduce
-               (comp (map #(mod (+ pos (* step %)) 100))
-                     (filter zero?))
-               (completing (fn [acc _] (inc acc)))
-               0
-               (range 1 (inc abs-delta)))
+        ;; Count zeros with loop/recur
+        hits (loop [i 1
+                    cnt 0]
+               (if (<= i abs-delta)
+                 (let [p (mod (+ pos (* step i)) 100)]
+                   (recur (inc i) (if (zero? p) (inc cnt) cnt)))
+                 cnt))
         new-pos (mod (+ pos delta) 100)]
     [new-pos
      (+ zero-hits (if (zero? new-pos) 1 0))
