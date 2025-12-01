@@ -1,4 +1,4 @@
-(ns core
+(ns day01
   (:require [clojure.java.io :as io])
   (:gen-class))
 
@@ -31,6 +31,7 @@
   (->> (first args)
        parse
        (reduce step-state [50 0 0])
+       (drop 1)
        println))
 
-; (apply -main *command-line-args*)
+(apply -main *command-line-args*)
