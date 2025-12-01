@@ -1,0 +1,2 @@
+{:paths ["."], ; Scripts in current dir
+ :deps {org.babashka/cli {:mvn/version "0.8.60"}}}  ; For easy CLI parsing
