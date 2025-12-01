@@ -1,1 +1,22 @@
-{:deps {org.clojure/clojure {:mvn/version "1.12.3"}}, :paths ["src"]}
+; {:deps {org.clojure/clojure {:mvn/version "1.12.3"}}, :paths ["src"]}
+
+; {:aliases {:uberjar
+;              {:exec-args
+;                 {:aot true, :jar "aoc.jar", :main-class core, :sync-pom true},
+;               :exec-fn hf.depstar/uberjar,
+;               :replace-deps {com.github.seancorfield/depstar {:mvn/version
+;                                                                 "2.1.303"}}}},
+;  :deps {org.clojure/clojure {:mvn/version "1.12.3"}},
+;  :paths ["src"]}
+
+
+{:paths ["src"]
+ :deps {org.clojure/clojure {:mvn/version "1.12.3"}}
+ :aliases {:uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.303"}}
+                     :exec-fn hf.depstar/uberjar
+                     :exec-args {:aot true
+                                 :jar "aoc.jar"
+                                 :main-class core
+                                 :sync-pom true
+                                 :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}}
+           }}

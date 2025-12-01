@@ -13,7 +13,8 @@
         mag (Integer/parseInt n-str)
         delta (if (= dir \L) (- mag) mag)
         step (if (pos? delta) 1 -1)
-        steps (range 1 (inc (Math/abs delta)))
+        abs-delta (if (neg? delta) (- delta) delta)
+        steps (range 1 (inc abs-delta))
         ;; every intermediate position we pass over
         positions (map #(mod (+ pos (* step %)) 100) steps)
         ;; how many times we *pass or land on* 0 during this move
@@ -31,4 +32,4 @@
        (reduce step-state [50 0 0])
        println))
 
-(apply -main *command-line-args*)
+; (apply -main *command-line-args*)
