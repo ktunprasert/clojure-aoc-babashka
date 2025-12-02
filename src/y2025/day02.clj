@@ -53,9 +53,9 @@
 
 (defn -main
   [& args]
-  (->> (first args)
-       parse
-       solve-re
-       pprint))
+  (time (->> (first args)
+             parse
+             solve-re
+             pprint)))
 
-(apply -main *command-line-args*)
+; (apply -main *command-line-args*)
