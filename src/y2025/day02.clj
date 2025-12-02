@@ -64,4 +64,5 @@
              solve-re
              pprint)))
 
-(apply -main *command-line-args*)
+(when (= *file* (System/getProperty "babashka.file"))
+  (apply -main *command-line-args*))
