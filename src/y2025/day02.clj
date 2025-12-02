@@ -43,16 +43,13 @@
 (def re-at-least-twice #"^(\d{1,5})\1+$")
 
 (defn solve-re [range-pairs]
-  (let [all (->> range-pairs (map (fn [[r1 r2]] (range r1 (inc r2)))))
-        twice (->> all
-                   (map #(filter (fn [n-str] (re-matches re-twice (str n-str))) %))
-                   flatten
-                   (reduce +))
-        at-least-twice (->> all
-                            (map #(filter (fn [n-str] (re-matches re-at-least-twice (str n-str))) %))
-                            flatten
-                            (reduce +))]
-    [twice at-least-twice]))
+  (let [solve (fn [regex]
+                (->> range-pairs
+                     (map (fn [[r1 r2]] (range r1 (inc r2))))
+                     (map #(filter (fn [n-str] (re-matches regex (str n-str))) %))
+                     flatten
+                     (reduce +)))]
+    [(solve re-twice) (solve re-at-least-twice)]))
 
 (defn -main
   [& args]
