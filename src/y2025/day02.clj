@@ -13,7 +13,7 @@
       str/trim
       (str/split #",")
       (->> (map #(str/split % #"-"))
-           (map #(map Integer/parseInt %)))))
+           (map #(map Long/parseUnsignedLong %)))))
 
 (defn log10 [num]
   (loop [x num e 0]
