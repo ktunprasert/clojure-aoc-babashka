@@ -6,14 +6,21 @@
    [clojure.string :as str])
   (:gen-class))
 
+; (defn parse
+;   [fname]
+;   (-> fname
+;       slurp
+;       str/trim-newline
+;       (str/split #",")
+;       ((partial map (comp (partial map Long/parseUnsignedLong)
+;                           #(str/split % #"-"))))))
+
 (defn parse
   [fname]
-  (-> fname
-      slurp
-      str/trim-newline
-      (str/split #",")
-      ((partial map (comp (partial map Long/parseUnsignedLong)
-                          #(str/split % #"-"))))))
+  (->> fname
+       slurp
+       (re-seq #"(\d+)-(\d+)")
+       (map (fn [[_ start end]] (map Long/parseUnsignedLong [start end])))))
 
 (defn log10 [num]
   (loop [x num e 0]
