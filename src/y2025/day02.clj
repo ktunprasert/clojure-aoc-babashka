@@ -39,11 +39,20 @@
        (map last)
        (reduce +)))
 
+(def re-twice #"^(\d{1,5})\1$")
+(def re-at-least-twice #"^(\d{1,5})\1+$")
+
+(defn solve-re [range-pairs]
+  (let [all (->> range-pairs (map (fn [[r1 r2]] (range r1 (inc r2)))) flatten)
+        twice (->> all (filter (fn [n-str] (re-matches re-twice (str n-str)))) (reduce +))
+        at-least-twice (->> all (filter (fn [n-str] (re-matches re-at-least-twice (str n-str)))) (reduce +))]
+    [twice at-least-twice]))
+
 (defn -main
   [& args]
   (->> (first args)
        parse
-       solve
+       solve-re
        pprint))
 
 (apply -main *command-line-args*)
