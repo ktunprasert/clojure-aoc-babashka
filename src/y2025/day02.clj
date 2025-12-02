@@ -8,12 +8,12 @@
 
 (defn parse
   [fname]
-  (-> (io/file fname)
+  (-> fname
       slurp
-      str/trim
+      str/trim-newline
       (str/split #",")
-      (->> (map #(str/split % #"-"))
-           (map #(map Long/parseUnsignedLong %)))))
+      ((partial map (comp (partial map Long/parseUnsignedLong)
+                          #(str/split % #"-"))))))
 
 (defn log10 [num]
   (loop [x num e 0]
@@ -46,8 +46,7 @@
   (let [solve (fn [regex]
                 (->> range-pairs
                      (map (fn [[r1 r2]] (range r1 (inc r2))))
-                     (map #(filter (fn [n-str] (re-matches regex (str n-str))) %))
-                     flatten
+                     (mapcat (partial filter (fn [n-str] (re-matches regex (str n-str)))))
                      (reduce +)))]
     [(solve re-twice) (solve re-at-least-twice)]))
 
@@ -58,4 +57,4 @@
              solve-re
              pprint)))
 
-; (apply -main *command-line-args*)
+(apply -main *command-line-args*)
